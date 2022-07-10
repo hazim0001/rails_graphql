@@ -7,9 +7,13 @@ module Types
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
 
-    field :items, [Types::ItemType], null: false
-    def items
-      Item.all
+    field :items, [Types::ItemType], null: false do
+      argument :first, Integer, required: false
+    end
+
+    def items(_first:)
+      first.positive? ? Item.limit(first) : Item.all
+      # Item.limit(first)
     end
 
     field :artists, [Types::ArtistType], null: false
