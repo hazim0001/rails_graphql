@@ -8,10 +8,10 @@ module Types
     # They will be entry points for queries on your schema.
 
     field :items, [Types::ItemType], null: false do
-      argument :first, Integer, required: false
+      argument :first, Integer, required: false, default_value: 5
     end
 
-    def items(_first:)
+    def items(first:)
       first.positive? ? Item.limit(first) : Item.all
       # Item.limit(first)
     end
